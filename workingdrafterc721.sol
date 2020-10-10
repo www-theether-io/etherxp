@@ -823,35 +823,26 @@ pragma solidity^0.4.24;
 
 
 contract Collectible is ERC721Token {
-  constructor() ERC721Token("Collectible", "COL") public {}
+  constructor() ERC721Token("etherxp", "EXP") public {}
 
-  struct Color {
-    uint8 red;
-    uint8 green;
-    uint8 blue;
-  }
 
  struct Reputation {
      uint award_type;
     
  }
  
-  Color[] colors;
   Reputation[] rep;
 
 
   function mint() public {
       
     Reputation memory _rep = Reputation(uint(2000));
-    Color memory _color = Color(uint8(now), uint8(now-1000), uint8(now-5500));
     rep.push(_rep);
-    uint _id = colors.push(_color) - 1;
+    uint _id = rep.push(_rep) - 1;
     _mint(msg.sender, _id);
   }
 
-  function getColorFromId(uint id) public view returns(uint8, uint8, uint8) {
-    return (colors[id].red, colors[id].green, colors[id].blue);
-  }
+
   
   
 function getReputationFromId(uint id)public view returns(uint) {
