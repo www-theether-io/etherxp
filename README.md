@@ -11,31 +11,31 @@ We are going to turn our solution into a completely decentralized identity manag
 
 
 ### The tokens
-Beginner ![Beginner](./metadata/images/01.png)
+![Beginner](./metadata/images/01.png) Beginner 
 
-Neophyte ![Neophyte](./metadata/images/02.png)
+![Neophyte](./metadata/images/02.png) Neophyte
 
-Novice ![Novice](./metadata/images/03.png)
+![Novice](./metadata/images/03.png) Novice
 
-Fledging ![Fledging](./metadata/images/04.png)
+![Fledging](./metadata/images/04.png) Fledging
 
-Apprentice ![Apprentice](./metadata/images/05.png)
+![Apprentice](./metadata/images/05.png) Apprentice
 
-Adept ![Adept](./metadata/images/06.png)
+![Adept](./metadata/images/06.png) Adept
 
-Expert ![Expert](./metadata/images/07.png)
+![Expert](./metadata/images/07.png) Expert
 
-Master ![Master](./metadata/images/08.png)
+![Master](./metadata/images/08.png) Master
 
-Grand Master ![Grand Master](./metadata/images/09.png)
+![Grand Master](./metadata/images/09.png) Grand Master
 
-Legend ![Legend](./metadata/images/10.png)
+![Legend](./metadata/images/10.png) Legend
 
 
 
 #### Git Repo Details
 
-This repository contains the source code for TheEtherXP ERC token. The token is built on ERC721 standards modified to prevent transfer of tokens. Tokens are initially minted from the smart-contract address and are inextricably bound to the wallet called in the initial mint function.
+This repository contains the source code for TheEtherXP ERC token. The token is built on ERC721 standards modified to prevent transfer of tokens. Tokens are initially minted from the smart-contract address and are inextricably bound to the address called in the initial mint function.
 
 The contract used for compilation is theetherxp_flattened.sol, this contract contains all solidity imports and flattened using [solidity flattener](https://github.com/poanetwork/solidity-flattener), the contract was compiled with solidity 0.6.2 and deployed using [remix.ethereum.org IDE](https://remix.ethereum.org/)
 
@@ -45,11 +45,11 @@ The contract used for compilation is theetherxp_flattened.sol, this contract con
 ├── metadata
 │   ├── images
 │   │   ├── 01.png
-│   │   ├── …
+│   │   ├── ...truncated-list...
 │   │   └── bbt.png
 │   └── json
 │       ├── 01.json
-│       ├── …
+│       ├── ...truncated-list...
 │       └── 11.json
 ├── README.md
 └── solidity
