@@ -5,7 +5,7 @@
 
 ### Motivation and Objectives
 
-The motivation behind this is to encourage productive rational discourse incentivized a positive and permanent reputation system.
+The motivation behind this project is to build a permanent and tokenized based reputation system using ERC standards and web3 protocols.
 
 We are going to turn our solution into a completely decentralized identity management platform for XP, where there is no centralized actor (including us) deciding how XP is rewarded. 
 
