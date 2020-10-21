@@ -12,14 +12,23 @@ We are going to turn our solution into a completely decentralized identity manag
 
 ### The tokens
 Beginner ![Beginner](./metadata/images/01.png)
+
 Neophyte ![Neophyte](./metadata/images/02.png)
+
 Novice ![Novice](./metadata/images/03.png)
+
 Fledging ![Fledging](./metadata/images/04.png)
+
 Apprentice ![Apprentice](./metadata/images/05.png)
+
 Adept ![Adept](./metadata/images/06.png)
+
 Expert ![Expert](./metadata/images/07.png)
+
 Master ![Master](./metadata/images/08.png)
+
 Grand Master ![Grand Master](./metadata/images/09.png)
+
 Legend ![Legend](./metadata/images/10.png)
 
 
@@ -32,7 +41,7 @@ The contract used for compilation is theetherxp_flattened.sol, this contract con
 
 
 ##### Git Tree
-
+```
 ├── metadata
 │   ├── images
 │   │   ├── 01.png
@@ -66,7 +75,7 @@ The contract used for compilation is theetherxp_flattened.sol, this contract con
     │   └── ethxp.sol
     ├── theetherxp_flattened.sol
     └── truffle-config.js
-
+```
 
 We are using the following technologies/ protocols:
 
