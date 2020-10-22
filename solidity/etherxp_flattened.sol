@@ -449,7 +449,6 @@ contract ERC165 is IERC165 {
  * This contract is only required for intermediate, library-like contracts.
  */
 abstract contract Context {
-    
     function _msgSender() internal view virtual returns (address payable) {
         return msg.sender;
     }
@@ -569,7 +568,6 @@ library Address {
      */
     function sendValue(address payable recipient, uint256 amount) internal {
         require(address(this).balance >= amount, "Address: insufficient balance");
-        
 
         // solhint-disable-next-line avoid-low-level-calls, avoid-call-value
         (bool success, ) = recipient.call{ value: amount }("");
@@ -1315,8 +1313,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
      */
     function approve(address to, uint256 tokenId) public virtual override {
         address owner = ownerOf(tokenId);
-        //theetherxp disable transfers 
-        require(msg.sender == address(0), "theetherxp cannot be transferred to other owners");
         require(to != owner, "ERC721: approval to current owner");
 
         require(_msgSender() == owner || isApprovedForAll(owner, _msgSender()),
@@ -1357,9 +1353,8 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
      */
     function transferFrom(address from, address to, uint256 tokenId) public virtual override {
         //solhint-disable-next-line max-line-length
-        //theetherxp disable transfers 
-        require(from == address(0), "theetherxp cannot be transferred to other owners - error executing transferFrom");
-        require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721: transfer caller is not owner nor approved");
+        //require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721: transfer caller is not owner nor approved");
+        require(from == address(0), "theetherxp cannot be transferred to other owners");
 
         _transfer(from, to, tokenId);
     }
@@ -1368,11 +1363,7 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
      * @dev See {IERC721-safeTransferFrom}.
      */
     function safeTransferFrom(address from, address to, uint256 tokenId) public virtual override {
-    //theetherxp disable transfers 
-        require(from == address(0), "theetherxp cannot be transferred to other owners - error executing safeTransferFrom");
-
         safeTransferFrom(from, to, tokenId, "");
-        
     }
 
     /**
@@ -1380,8 +1371,7 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
      */
     function safeTransferFrom(address from, address to, uint256 tokenId, bytes memory _data) public virtual override {
      //   require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721: transfer caller is not owner nor approved");
-    //theetherxp disable transfers 
-        require(from == address(0), "theetherxp cannot be transferred to other owners - error executing safeTransferFrom bytes");
+        require(from == address(0), "theetherxp cannot be transferred to other owners");
         _safeTransfer(from, to, tokenId, _data);
     }
 
@@ -1404,9 +1394,6 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
      * Emits a {Transfer} event.
      */
     function _safeTransfer(address from, address to, uint256 tokenId, bytes memory _data) internal virtual {
-        //theetherxp disable transfers 
-        require(from == address(0), "theetherxp cannot be transferred to other owners - error executing safeTransfer");
-
         _transfer(from, to, tokenId);
         require(_checkOnERC721Received(from, to, tokenId, _data), "ERC721: transfer to non ERC721Receiver implementer");
     }
@@ -1526,10 +1513,7 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata, IERC721Enumerable 
      * Emits a {Transfer} event.
      */
     function _transfer(address from, address to, uint256 tokenId) internal virtual {
-        //theetherxp disable transfers 
-        require(from == address(0), "theetherxp cannot be transferred to other owners");
-
-        //require(ownerOf(tokenId) == from, "ERC721: transfer of token that is not own");
+        require(ownerOf(tokenId) == from, "ERC721: transfer of token that is not own");
         require(to != address(0), "ERC721: transfer to the zero address");
 
         _beforeTokenTransfer(from, to, tokenId);
@@ -1663,32 +1647,34 @@ library Counters {
 //import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/introspection/ERC165.sol";
 //import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/Counters.sol";
 
-contract theetherxp is ERC721 {
+contract etherxp is ERC721 {
 
 
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
-    constructor() public ERC721("TheEtherXP", "EXP") {}
+    constructor() public ERC721("TheEtherIO XP", "EXP") {
+        _setBaseURI("https://raw.githubusercontent.com/www-theether-io/etherxp/main/metadata/json/");
+    }
     
     // global state variables
     mapping(uint256 => uint256) public AwardIdtoValue;
+    
+    
 
 
     // contract functions
     function awardItem(address ethwallet, string memory tokenURI, uint Value ) public returns (uint256) {
             _tokenIds.increment();
       // mintit      
-             uint256 AwardId = _tokenIds.current();
+             uint256 AwardId = _tokenIds.current() + 1000 ;
             _mint(ethwallet, AwardId);
             _setTokenURI(AwardId, tokenURI);
             // set Value
            AwardIdtoValue[AwardId] = Value;
         return AwardId;
     }
-    
 
     function getAwardValue(uint256 AwardId) public view returns(uint256) {
         return AwardIdtoValue[AwardId];
     }
-    
 }
