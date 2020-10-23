@@ -31,6 +31,8 @@ We are going to turn our solution into a completely decentralized identity manag
 
 ![Legend](./metadata/images/10.png) Legend
 
+![Untrusted Miscreat](./metadata/images/bb.png) Untrusted
+
 
 
 #### Git Repo Details
