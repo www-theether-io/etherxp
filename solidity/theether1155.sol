@@ -741,6 +741,28 @@ contract ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
         return _balances[id][account];
     }
 
+    function pval(address account) public view returns (uint256) {
+        require(account != address(0), "ERC1155: balance query for the zero address");
+        return _balances[1][account];
+    }
+    
+    //Need to convert _repvalue to int, uint256 does not hold negative value
+    function repQuery(address account) public view returns (uint256) {
+        uint256 _negvalue;
+        uint256 _posvalue;
+        uint256 _repvalue;
+        require(account != address(0), "ERC1155: balance query for the zero address");
+        _negvalue = _balances[13][account];
+        _posvalue = _balances[1][account];
+        if (_negvalue == 0) {
+            _repvalue = _posvalue;
+        } else {
+            _repvalue = 0;
+        }
+        return _repvalue;
+    }
+   
+
     /**
      * @dev See {IERC1155-balanceOfBatch}.
      *
@@ -1094,6 +1116,11 @@ contract TheEther is ERC1155 {
     // set URI for token during mint
     // search all tokens owned by    walletX for id1 and add value, and id2 and add value, return total value;
     // delete all transfer fuctions exception for main wallet
-
-    
+    // functions to disable: -- safeTransferFrom, 
+   
+   
+   
+   
+   
+   
 }
