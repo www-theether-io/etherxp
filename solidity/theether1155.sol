@@ -746,21 +746,11 @@ contract ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
         return _balances[1][account];
     }
     
-    //Need to convert _repvalue to int, uint256 does not hold negative value
-    function repQuery(address account) public view returns (uint256) {
-        uint256 _negvalue;
-        uint256 _posvalue;
-        uint256 _repvalue;
-        require(account != address(0), "ERC1155: balance query for the zero address");
-        _negvalue = _balances[13][account];
-        _posvalue = _balances[1][account];
-        if (_negvalue == 0) {
-            _repvalue = _posvalue;
-        } else {
-            _repvalue = 0;
-        }
-        return _repvalue;
-    }
+    
+    
+   
+   
+   
    
 
     /**
@@ -1085,7 +1075,48 @@ contract ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
 
         return array;
     }
+    
+ 
+    //Need to convert _repvalue to int, uint256 does not hold negative value
+    function repQuery(address account) public view returns (int) {
+        uint256 _negativerep;
+        uint256 _positiverep;
+        int _negativeval;
+        int _positiveval;
+        int _reputationscore;
+        
+        require(account != address(0), "ERC1155: balance query for the zero address");
+        _negativerep = _balances[13][account];
+        _positiverep = _balances[1][account];
+        if (_negativerep == 0) {
+            _reputationscore = int(uint256(_positiverep));
+            
+        } else {
+            // adjust below function to change impact of negative rep, currently it multiplies by -100
+            _negativeval = int(uint256(_negativerep)) * -100;
+            _positiveval = int(uint256(_positiverep));
+            _reputationscore = _negativeval + _positiveval;
+            
+        }
+        return _reputationscore;
+    }
+       
+    
+    
+    
+    
+    
+    
 }
+
+
+
+
+
+
+
+
+
 
 // File: browser/oz1155.sol
 
@@ -1104,23 +1135,16 @@ contract TheEther is ERC1155 {
     
 
 
-    function mintrep(address account, uint256 id, uint256 amount, bytes memory data, uint Value)
+    function mintrep(address account, uint256 id, uint256 amount, bytes memory data)
     public {
         _mint(account, id, amount, data);
-        AwardidtoValue[id] = Value;
-    }
-        function getAwardValue(uint256 id) public view returns(uint256) {
-        return AwardidtoValue[id];
     }
     
-    // set URI for token during mint
-    // search all tokens owned by    walletX for id1 and add value, and id2 and add value, return total value;
+
+    
+    // set URI for token during mint ?
     // delete all transfer fuctions exception for main wallet
     // functions to disable: -- safeTransferFrom, 
-   
-   
-   
-   
-   
-   
+    // clean up pval and AwardidtoValue mapping
+
 }
