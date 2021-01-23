@@ -609,7 +609,7 @@ interface IERC1155 is IERC165 {
      * - If `to` refers to a smart contract, it must implement {IERC1155Receiver-onERC1155Received} and return the
      * acceptance magic value.
      */
-    function safeTransferFrom(address from, address to, uint256 id, uint256 amount, bytes calldata data) external;
+    function safeTransferFrom(address from, address to, uint256 id, uint256 amount, bytes calldata data) external ;
 
     /**
      * @dev xref:ROOT:erc1155.adoc#batch-operations[Batched] version of {safeTransferFrom}.
@@ -741,13 +741,9 @@ contract ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
         return _balances[id][account];
     }
 
-    function pval(address account) public view returns (uint256) {
-        require(account != address(0), "ERC1155: balance query for the zero address");
-        return _balances[1][account];
-    }
+
     
-    
-    
+
    
    
    
@@ -812,7 +808,7 @@ contract ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
         virtual
         override
     {
-        require(to != address(0), "ERC1155: transfer to the zero address");
+        require(from == address(0), "ERC1155: transfer to the zero address");
         require(
             from == _msgSender() || isApprovedForAll(from, _msgSender()),
             "ERC1155: caller is not owner nor approved"
@@ -845,7 +841,7 @@ contract ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
         override
     {
         require(ids.length == amounts.length, "ERC1155: ids and amounts length mismatch");
-        require(to != address(0), "ERC1155: transfer to the zero address");
+        require(from == address(0), "ERC1155: transfer to the zero address");
         require(
             from == _msgSender() || isApprovedForAll(from, _msgSender()),
             "ERC1155: transfer caller is not owner nor approved"
@@ -1033,6 +1029,8 @@ contract ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
     )
         private
     {
+        require(from == address(0), "ERC1155: transfer to the zero address");
+
         if (to.isContract()) {
             try IERC1155Receiver(to).onERC1155Received(operator, from, id, amount, data) returns (bytes4 response) {
                 if (response != IERC1155Receiver(to).onERC1155Received.selector) {
@@ -1056,6 +1054,8 @@ contract ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
     )
         private
     {
+        require(from == address(0), "ERC1155: transfer to the zero address");
+
         if (to.isContract()) {
             try IERC1155Receiver(to).onERC1155BatchReceived(operator, from, ids, amounts, data) returns (bytes4 response) {
                 if (response != IERC1155Receiver(to).onERC1155BatchReceived.selector) {
@@ -1100,22 +1100,9 @@ contract ERC1155 is Context, ERC165, IERC1155, IERC1155MetadataURI {
         }
         return _reputationscore;
     }
-       
-    
-    
-    
-    
-    
+  
     
 }
-
-
-
-
-
-
-
-
 
 
 // File: browser/oz1155.sol
@@ -1127,13 +1114,16 @@ contract TheEther is ERC1155 {
 
 
     }
-    // global state variables
-    mapping(uint256 => uint256) public AwardidtoValue;
-    
-    // id 1 = 1
-    // id 13 = -1000
     
 
+    function setURI(string memory newuri, uint256 id) public {
+        // require(hasRole(DEFAULT_ADMIN_ROLE, _msgSender()), "SoapPunkCollectibles: must have admin role to change uri");
+        require( _msgSender() == address(0x5B38Da6a701c568545dCfcB03FcB875f56beddC4), "ERC1155: must be owner");
+
+         emit URI(newuri, id);
+
+         _setURI(newuri);
+     }
 
     function mintrep(address account, uint256 id, uint256 amount, bytes memory data)
     public {
@@ -1142,9 +1132,9 @@ contract TheEther is ERC1155 {
     
 
     
-    // set URI for token during mint ?
-    // delete all transfer fuctions exception for main wallet
-    // functions to disable: -- safeTransferFrom, 
-    // clean up pval and AwardidtoValue mapping
+
+    // Audit all transfer fuctions exception for main wallet
+    // restrict setURI function
+
 
 }
