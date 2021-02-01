@@ -1,6 +1,3 @@
-
-// File: https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/master/contracts/math/SafeMath.sol
-
 // SPDX-License-Identifier: MIT
 
 pragma solidity >=0.6.0 <0.8.0;
@@ -18,6 +15,88 @@ pragma solidity >=0.6.0 <0.8.0;
  * Using this library instead of the unchecked operations eliminates an entire
  * class of bugs, so it's recommended to use it always.
  */
+ 
+ 
+ 
+ 
+library Roles {
+    struct Role {
+        mapping (address => bool) bearer;
+    }
+
+    /**
+     * @dev give an account access to this role
+     */
+    function add(Role storage role, address account) internal {
+        require(account != address(0));
+        require(!has(role, account));
+
+        role.bearer[account] = true;
+    }
+
+    /**
+     * @dev remove an account's access to this role
+     */
+    function remove(Role storage role, address account) internal {
+        require(account != address(0));
+        require(has(role, account));
+
+        role.bearer[account] = false;
+    }
+
+    /**
+     * @dev check if an account has this role
+     * @return bool
+     */
+    function has(Role storage role, address account) internal view returns (bool) {
+        require(account != address(0));
+        return role.bearer[account];
+    }
+}
+
+contract MinterRole {
+    using Roles for Roles.Role;
+
+    event MinterAdded(address indexed account);
+    event MinterRemoved(address indexed account);
+
+    Roles.Role private _minters;
+
+    constructor () internal {
+        _addMinter(msg.sender);
+    }
+
+    modifier onlyMinter() {
+        require(isMinter(msg.sender));
+        _;
+    }
+
+    function isMinter(address account) public view returns (bool) {
+        return _minters.has(account);
+    }
+
+    function addMinter(address account) public onlyMinter {
+        _addMinter(account);
+    }
+
+    function renounceMinter() public {
+        _removeMinter(msg.sender);
+    }
+
+    function _addMinter(address account) internal {
+        _minters.add(account);
+        emit MinterAdded(account);
+    }
+
+    function _removeMinter(address account) internal {
+        _minters.remove(account);
+        emit MinterRemoved(account);
+    }
+}
+
+
+// REMOVE HERE
+
 library SafeMath {
     /**
      * @dev Returns the addition of two unsigned integers, with an overflow flag.
@@ -208,8 +287,6 @@ library SafeMath {
 
 // File: https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/master/contracts/token/ERC20/IERC20.sol
 
-// SPDX-License-Identifier: MIT
-
 pragma solidity >=0.6.0 <0.8.0;
 
 /**
@@ -288,7 +365,6 @@ interface IERC20 {
 
 // File: https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/master/contracts/utils/Context.sol
 
-// SPDX-License-Identifier: MIT
 
 pragma solidity >=0.6.0 <0.8.0;
 
@@ -314,10 +390,6 @@ abstract contract Context {
 }
 
 // File: https://raw.githubusercontent.com/OpenZeppelin/openzeppelin-contracts/master/contracts/token/ERC20/ERC20.sol
-
-// SPDX-License-Identifier: MIT
-
-pragma solidity >=0.6.0 <0.8.0;
 
 
 
@@ -538,12 +610,17 @@ contract ERC20 is Context, IERC20 {
      * Emits a {Transfer} event with `from` set to the zero address.
      *
      * Requirements:
+     *     function mint(address to, uint256 value) public onlyMinter returns (bool) {
+        _mint(to, value);
+        return true;
+    }
+    
      *
      * - `to` cannot be the zero address.
      */
     function _mint(address account, uint256 amount) internal virtual {
         require(account != address(0), "ERC20: mint to the zero address");
-
+       //  require(msg.sender == address(0x5B38Da6a701c568545dCfcB03FcB875f56beddC4), "Restricting mint function to appropriate address");
         _beforeTokenTransfer(address(0), account, amount);
 
         _totalSupply = _totalSupply.add(amount);
@@ -560,8 +637,7 @@ contract ERC20 is Context, IERC20 {
      * Requirements:
      *
      * - `account` cannot be the zero address.
-     * - `account` must have at least `amount` tokens.
-     */
+  
     function _burn(address account, uint256 amount) internal virtual {
         require(account != address(0), "ERC20: burn from the zero address");
 
@@ -571,7 +647,8 @@ contract ERC20 is Context, IERC20 {
         _totalSupply = _totalSupply.sub(amount);
         emit Transfer(account, address(0), amount);
     }
-
+   * - `account` must have at least `amount` tokens.
+     */
     /**
      * @dev Sets `amount` as the allowance of `spender` over the `owner` s tokens.
      *
@@ -621,27 +698,31 @@ contract ERC20 is Context, IERC20 {
     function _beforeTokenTransfer(address from, address to, uint256 amount) internal virtual { }
 }
 
-// File: browser/erc20_template.sol
 
-// SPDX-License-Identifier: MIT
+
+
 pragma solidity >=0.4.22 <0.7.0;
 
 
 
-contract Token is ERC20 {
+contract theetherfame is ERC20, MinterRole {
+    
+    
+    //mapping(address => address) operators;
 
     constructor () public ERC20("theEther", "FAME") {
        
-       
-       //function mint
-       
     }
+    function mint(address to, uint256 value) public onlyMinter returns (bool) {
+        _mint(to, value);
+        return true;
+    }
+
+    
+
+
+
 }
 
 
 
-
-
-
-// add mint function
-// add approved mint operators
