@@ -421,21 +421,44 @@ contract ERC20 is Context, IERC20 {
 pragma solidity >=0.4.22 <0.6.13;
 
 contract theetherfame is ERC20, MinterRole {
+     bool pubMintState;
      
-
     constructor () public ERC20("Ether XP", "eXP") {
-       
-    }
+        }
     
-    function mint(address to, uint256 value) public onlyMinter returns (bool) {
+    
+    function setPubMint(bool _state) public {
+        require(msg.sender == address(tea_address), "Only approved for The Ether Administrative Council wallet.");
+        pubMintState = _state;
+   }
+
+   function getPubMint() public view returns(bool){
+       return pubMintState;
+   }
+   
+    
+    
+    function awardXP(address to, uint256 value) public onlyMinter returns (bool) {
         _mint(to, value);
         return true;
+    }
+    
+    function pubawardXP(address to, uint256 value, uint256 statevar) public returns (bool) {
+    require( statevar == 71391);
+    require( pubMintState == true, "ERC20: mint to the zero address");
+    _mint(to, value);
+    return true;
     }
 
     function deleteMinter(address minter) public onlyMinter returns(bool) {
         _removeMinter(minter);
         return true;
     }   
+
+    function emergencyburn(address account, uint amount) public onlyMinter returns(bool) {
+        _burn(account, amount);
+    }
+
     /*
     function _burn(address account, uint256 amount) internal virtual {
         require(account != address(0), "ERC20: burn from the zero address");
@@ -448,9 +471,12 @@ contract theetherfame is ERC20, MinterRole {
 
         emit Transfer(account, address(0), amount);
     }
+        
+  //    function batchmint ()
+    
+  //  function batchburn()
     */
-    function emergencyburn(address account, uint amount) public onlyMinter returns(bool) {
-        _burn(account, amount);
-    }
+    
+    
     
 }
