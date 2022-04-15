@@ -1,13 +1,13 @@
-# TheEtherXP NFT Non-Transferable Reputation System :key:
+# TheDreamerXP Non-Transferable Token Reputation System :key:
 
-![logo](./logo1.png)
-> Non-transferable NFT reputation system for [www-theether-io](https//www.theether.io)
+![logo](./Dream_DAO_Logo.png)
+> Non-transferable NFT reputation system for [www-theether-io](https://dreamdao.xyz/)
 
 ### Motivation and Objectives
 
 The motivation behind this project is to build a permanent and tokenized based reputation system using ERC standards and web3 protocols.
 
-We are going to turn our solution into a completely decentralized identity management platform for XP, where there is no centralized actor (including us) deciding how XP is rewarded. 
+We are going to turn our solution into a completely decentralized identity management platform for XP, where there is no centralized actor (including us) deciding how contribution XP is rewarded. 
 
 
 ### The tokens
