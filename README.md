@@ -1,6 +1,6 @@
-# TheEtherXP NFT Non-Transferable Reputation System :key:
+# TheDreamerXP Non-Transferable Token Reputation System :key:
 
-![logo](./logo1.png)
+![image01](https://user-images.githubusercontent.com/79764782/163647133-37406719-e195-4cae-851f-09ddb20b720e.png)
 > Non-transferable NFT reputation system for [www-theether-io](https//www.theether.io)
 
 ### Motivation and Objectives
